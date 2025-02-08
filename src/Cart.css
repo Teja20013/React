@@ -1,0 +1,141 @@
+/* Cart Page Container */
+/* Cart Page Container */
+.cart-container {
+    text-align: center;
+    padding: 30px;
+    background-color: #151517;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Cart Item List */
+  .list-group {
+    width: 90%;
+    max-width: 800px;
+    background-color: rgb(51, 51, 52);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  /* Cart Item */
+  .list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .list-group-item:last-child {
+    border-bottom: none;
+  }
+  
+  /* Buttons for Quantity Adjustment */
+  button {
+    padding: 6px 12px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  button:first-child {
+    background-color: #27ae60;
+    color: white;
+  }
+  
+  button:nth-child(2) {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  button:last-child {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  /* Total Price and Discount Section */
+  .h5 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .discount-section {
+    background-color: #d4edda;
+    padding: 15px;
+    border-radius: 5px;
+    color: #155724;
+    margin-top: 20px;
+  }
+  
+  button.btn-primary {
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    padding: 10px 20px;
+    transition: background 0.3s ease;
+    margin-top: 20px;
+  }
+  
+  button.btn-primary:hover {
+    background-color: #202225;
+  }
+  
+  button.btn-success {
+    background-color: #28a745;
+    color: white;
+    border-radius: 5px;
+    padding: 10px 20px;
+    transition: background 0.3s ease;
+    margin-top: 20px;
+  }
+  
+  button.btn-success:hover {
+    background-color: #218838;
+  }
+  
+  /* Input and Button for Coupon Code */
+  input {
+    padding: 8px;
+    width: 80%;
+    max-width: 300px;
+    border-radius: 5px;
+    border: 1px solid hsl(0, 22%, 96%);
+    margin-top: 10px;
+  }
+  
+  button {
+    background-color: #27ae60;
+    color: rgb(17, 13, 13);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  button:hover {
+    background-color: #218c54;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .veg-items {
+      grid-template-columns: 1fr 1fr;
+    }
+  
+    .list-group {
+      width: 100%;
+    }
+  
+    .veg-item button,
+    button.btn-primary,
+    button.btn-success {
+      width: 100%;
+    }
+  }
+  

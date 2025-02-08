@@ -1,0 +1,60 @@
+/* Global Styles to Ensure Full Page Height */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+  font-family: 'Arial', sans-serif;
+  background-color: #83b1df;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+main {
+  flex-grow: 1;
+}
+
+/* Header/Nav Styling */
+nav {
+  background-color: #c3cad1;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: #181414;
+  text-decoration: none;
+  margin: 0 15px;
+  font-size: 18px;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #27ae60;
+}
+
+nav .navbar-text {
+  margin-right: 15px;
+}
+
+button {
+  background-color: #5350e6;
+  color: rgb(103, 86, 210);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #218c54;
+}
