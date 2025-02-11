@@ -3,7 +3,6 @@
 .cart-container {
     text-align: center;
     padding: 30px;
-    background-color: #151517;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -14,7 +13,7 @@
   .list-group {
     width: 90%;
     max-width: 800px;
-    background-color: rgb(51, 51, 52);
+    background-color: rgb(228, 228, 239);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
@@ -26,6 +25,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px;
+    color: black;
     border-bottom: 1px solid #ddd;
   }
   

@@ -31,7 +31,7 @@ function Nonveg() {
 
     const finalItems = currentItems.map((item, index) => (
         <li key={index} className="nonveg-card">
-            <span>{item.name} - ${item.price}</span>
+            <span>{item.name} - {item.price}</span>
             <button className="add-cart-btn" onClick={() => dispatch(addToCart(item))}>
                 Add to Cart
             </button>

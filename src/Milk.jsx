@@ -31,7 +31,7 @@ function Milk() {
 
     const finalItems = currentItems.map((item, index) => (
         <li key={index} className="milk-card">
-            <span>{item.name} - ${item.price}</span>
+            <span>{item.name} - {item.price}</span>
             <button className="add-cart-btn" onClick={() => dispatch(addToCart(item))}>
                 Add to Cart
             </button>

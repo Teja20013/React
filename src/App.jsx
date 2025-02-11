@@ -39,14 +39,14 @@ function App()
 
       {/* Centering the links */}
       <div className="nav-center">
-        <Link to="/home">Home</Link>
-        <Link to="/veg"><i class="fa-solid fa-carrot"></i>Veg</Link>
-        <Link to="/nonveg"><i class="fa-solid fa-drumstick-bite"></i>Non-Veg</Link>
-        <Link to="/milk"><i class="fa-solid fa-cheese"></i>Milk</Link>
-        <Link to="/aboutus">About Us</Link>
-        <Link to="/contactus"><i class="fa-solid fa-address-card"></i>Contact Us</Link>
-        <Link to="/cart"><i class="fa-solid fa-cart-shopping"></i>Cart<span className="cart-count">{totalItems}</span></Link>
-        <Link to="/orders"><i class="fa-solid fa-sort"></i>Orders</Link>
+        <Link to="/home"><i className="fa-solid fa-house"></i> Home</Link>
+        <Link to="/veg"><i className="fa-solid fa-carrot"></i> Veg</Link>
+        <Link to="/nonveg"><i className="fa-solid fa-drumstick-bite"></i> Non-Veg</Link>
+        <Link to="/milk"><i className="fa-solid fa-cheese"></i> Milk</Link>
+        <Link to="/aboutus"><i className="fa-solid fa-info-circle"></i> About Us</Link>
+        <Link to="/contactus"><i className="fa-solid fa-address-card"></i>Contact Us</Link>
+        <Link to="/cart"><i className="fa-solid fa-cart-shopping"></i>Cart<span className="cart-count">{totalItems}</span></Link>
+        <Link to="/orders"><i className="fa-solid fa-sort"></i>Orders</Link>
       </div>
       {/* Authentication Section (Right Side) */}
       <div className="auth-section">
