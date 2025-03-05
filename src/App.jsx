@@ -3,6 +3,7 @@ import Home from "./Home";
 import Veg from "./Veg";
 import Contactus from "./Contactus";
 import Aboutus from "./Aboutus";
+import './Contactus.css';
 import Orders from "./Orders";
 import Cart from "./Cart";
 import Nonveg from "./Nonveg";
@@ -10,8 +11,8 @@ import './App.css';
 import './Veg.css';
 import './Cart.css';
 import './Notfound';
-import './Nonveg';
-import './Milk';
+import './Nonveg.css';
+import './Milk.css';
 <Nonveg></Nonveg>
 import Milk from "./Milk";
 import { useDispatch, useSelector } from "react-redux";
@@ -39,7 +40,7 @@ function App()
 
       {/* Centering the links */}
       <div className="nav-center">
-        <Link to="/home"><i className="fa-solid fa-house"></i> Home</Link>
+        <Link to="/"><i className="fa-solid fa-house"></i> Home</Link>
         <Link to="/veg"><i className="fa-solid fa-carrot"></i> Veg</Link>
         <Link to="/nonveg"><i className="fa-solid fa-drumstick-bite"></i> Non-Veg</Link>
         <Link to="/milk"><i className="fa-solid fa-cheese"></i> Milk</Link>
@@ -63,6 +64,7 @@ function App()
     {/* Page Content */}
     <div className="content">
       <Routes>
+      <Route path="/" element={<Navigate to="/home" />}/>
         <Route path="/home" element={<Home />}/>
         <Route path="/veg" element={<Veg />} />
         <Route path="/nonveg" element={<Nonveg />}/>

@@ -1,33 +1,29 @@
-/* 🌍 Global Styles */
+/* Global Styles */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #a2c6eb;
+  background-color: #e3f2fd; /* Soft Blue Background */
+  color: #000; /* Set text color to black */
   display: flex;
-  justify-content: center;  /* Centers content horizontally */
-  align-items: center;  /* Centers content vertically */
-  height: 100vh;  /* Full viewport height */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
-/* 🛒 Navbar Styling (Centered) */
+/* Navbar Styles */
 .navbar {
   display: flex;
-  justify-content: center;  /* Centers navbar items horizontally */
+  justify-content: space-between;
   align-items: center;
   background-color: #2c3e50;
   padding: 15px 20px;
   color: white;
   width: 100%;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-}
-
-/* Center navbar links */
-.nav-center {
-  display: flex;
-  gap: 20px;
+  z-index: 1000;
 }
 
 .navbar a {
@@ -42,35 +38,21 @@ body {
   color: #f39c12;
 }
 
-/* 🛍️ Center Page Content */
+/* Page Content */
 .content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;  /* Center content horizontally */
-  justify-content: center;  /* Center content vertically */
+  margin-top: 80px;
   text-align: center;
   width: 100%;
-  max-width: 900px;
+  max-width: 1200px;
   padding: 20px;
 }
 
-/* 🏷️ Authentication Section (Right Side) */
-.auth-section {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.user-name {
-  font-size: 16px;
-  font-weight: bold;
-}
-
+/* Buttons */
 .btn-login,
 .btn-logout {
   background-color: #e74c3c;
   color: white;
-  padding: 8px 15px;
+  padding: 10px 15px;
   border: none;
   cursor: pointer;
   border-radius: 5px;
@@ -82,75 +64,10 @@ body {
   background-color: #c0392b;
 }
 
-/* 🛍️ Cart Icon with Item Count */
-.cart-count {
-  background-color: red;
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-  padding: 3px 6px;
-  border-radius: 50%;
-  margin-left: 5px;
-}
-
-/* 🎭 Animations */
-/* Bounce effect */
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
-}
-
-/* Rotate effect */
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Shake effect */
-@keyframes shake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-3px); }
-  50% { transform: translateX(3px); }
-  75% { transform: translateX(-3px); }
-  100% { transform: translateX(0); }
-}
-
-/* Apply animation on hover */
-.navbar a i {
-  transition: transform 0.3s ease-in-out;
-}
-
-.navbar a:hover i {
-  animation: bounce 0.5s ease-in-out infinite;
-}
-
-/* Apply different effects for specific icons */
-.navbar a:hover .fa-cart-shopping {
-  animation: shake 0.5s ease-in-out infinite;
-}
-
-.navbar a:hover .fa-cheese {
-  animation: rotate 1s linear infinite;
-}
-
-/* 📱 Responsive Design */
+/* Responsive Design */
 @media (max-width: 768px) {
-  body {
-    flex-direction: column;
-    height: auto;
-  }
-
   .navbar {
     flex-direction: column;
-    align-items: center;
     padding: 10px;
   }
 
@@ -161,6 +78,6 @@ body {
   }
 
   .content {
-    padding: 20px;
+    padding: 15px;
   }
 }

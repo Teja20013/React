@@ -1,0 +1,93 @@
+.contact-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0px 4px 10px rgba(248, 246, 246, 0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+h2, h3 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Contact Information */
+.contact-info {
+    background: #f8f8f8;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.contact-info p {
+    font-size: 18px;
+    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.contact-info svg {
+    color: #ff5733;
+    font-size: 20px;
+}
+
+/* Contact Form Styling */
+.contact-form-container {
+    background: #fff5f0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 80%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: #ff5733;
+    outline: none;
+}
+
+/* Increase height for message box */
+.contact-form textarea {
+    height: 150px;
+    resize: vertical; /* Allow resizing */
+}
+
+.contact-form button {
+    background-color: #ff5733;
+    color: white;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    outline: none;
+}
+
+.contact-form button:hover {
+    background-color: #e04e2a;
+}

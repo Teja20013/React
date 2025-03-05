@@ -31,6 +31,11 @@ function Milk() {
 
     const finalItems = currentItems.map((item, index) => (
         <li key={index} className="milk-card">
+            <img 
+            src={item.image}
+            alt={item.name}
+            style={{height:"120px", width:"120px", objectFit:"cover"}}
+            />
             <span>{item.name} - {item.price}</span>
             <button className="add-cart-btn" onClick={() => dispatch(addToCart(item))}>
                 Add to Cart

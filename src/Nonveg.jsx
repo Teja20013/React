@@ -31,6 +31,11 @@ function Nonveg() {
 
     const finalItems = currentItems.map((item, index) => (
         <li key={index} className="nonveg-card">
+            <img 
+            src={item.image}
+            alt={item.name}
+            style={{height:"120px", width:"120px", objectFit:"cover"}}
+            />
             <span>{item.name} - {item.price}</span>
             <button className="add-cart-btn" onClick={() => dispatch(addToCart(item))}>
                 Add to Cart
