@@ -23,6 +23,7 @@ function Login()
         <h2>Login Page</h2>
         <label>User Name:</label>
         <input type="text" ref={username}/>
+         <br></br>
         <label>Password:</label>
         <input type="password" ref={password}/>
         <button style={{backgroundColor: "gray"}}
