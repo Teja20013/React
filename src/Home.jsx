@@ -1,78 +1,72 @@
-import { createSelector } from "@reduxjs/toolkit";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import "./Home.css";
-import { addToCart } from "./Store";
+import { createSelector } from "@reduxjs/toolkit";
+import { setProducts, addToCart } from "./Store";
 
-/* ✅ Memoized selector */
+/* ✅ Selector */
 const selectAllItems = createSelector(
   (state) => state.products,
   (products) => ({
-    veg: products?.veg || [],
-    nonveg: products?.nonveg || [],
-    milk: products?.milk || [],
+    veg: products.veg,
+    nonveg: products.nonveg,
+    milk: products.milk,
     all: [
-      ...(products?.veg || []),
-      ...(products?.nonveg || []),
-      ...(products?.milk || [])
+      ...products.veg,
+      ...products.nonveg,
+      ...products.milk
     ]
   })
 );
 
 function Home() {
   const dispatch = useDispatch();
-  const allItems = useSelector(selectAllItems);
+  const items = useSelector(selectAllItems);
 
-  const [searchItem, setSearchItem] = useState("");
   const [category, setCategory] = useState("all");
+  const [search, setSearch] = useState("");
 
-  const filteredItems = allItems[category].filter(item =>
-    item.name.toLowerCase().includes(searchItem.toLowerCase())
+  /* ✅ Fetch from backend */
+  useEffect(() => {
+    fetch("http://localhost:5000/api/products")
+      .then(res => res.json())
+      .then(data => dispatch(setProducts(data)))
+      .catch(err => console.error(err));
+  }, [dispatch]);
+
+  const filtered = items[category].filter(item =>
+    item.name.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
-    <div className="container">
-      <h2>🏠 Welcome to Our Store 🛍</h2>
+    <div>
+      <h2>🛒 Grocery Store</h2>
 
-      {/* Search & Filter */}
-      <div className="search-filter">
-        <input
-          type="text"
-          placeholder="🔍 Search for items..."
-          value={searchItem}
-          onChange={(e) => setSearchItem(e.target.value)}
-        />
+      <input
+        placeholder="Search..."
+        value={search}
+        onChange={e => setSearch(e.target.value)}
+      />
 
-        <select value={category} onChange={(e) => setCategory(e.target.value)}>
-          <option value="all">All Items</option>
-          <option value="veg">Veg 🥦</option>
-          <option value="nonveg">Non-Veg 🍗</option>
-          <option value="milk">Milk 🥛</option>
-        </select>
+      <select onChange={e => setCategory(e.target.value)}>
+        <option value="all">All</option>
+        <option value="veg">Veg</option>
+        <option value="nonveg">Non-Veg</option>
+        <option value="milk">Milk</option>
+      </select>
+
+      <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+        {filtered.map((item, i) => (
+          <div key={i} style={{ border: "1px solid #ccc", padding: 10 }}>
+            <h4>{item.name}</h4>
+            <p>₹{item.price}</p>
+            <button onClick={() => dispatch(addToCart(item))}>
+              Add to Cart
+            </button>
+          </div>
+        ))}
       </div>
 
-      {/* Products */}
-      <div className="product-list">
-        {filteredItems.length > 0 ? (
-          filteredItems.map((item, index) => (
-            <div key={index} className="product-card">
-              <img
-                src={item.image}
-                alt={item.name}
-                width="150"
-                height="150"
-              />
-              <h5>{item.name}</h5>
-              <p>₹{item.price}</p>
-              <button onClick={() => dispatch(addToCart(item))}>
-                🛒 Add to Cart
-              </button>
-            </div>
-          ))
-        ) : (
-          <p className="no-items">No items found.</p>
-        )}
-      </div>
+      {filtered.length === 0 && <p>No items found</p>}
     </div>
   );
 }
