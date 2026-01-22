@@ -1,118 +1,89 @@
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "./Store";
-import { useState, useEffect } from "react";
-import "./Veg.css";
 
 function Veg() {
-    const dispatch = useDispatch();
-    const vegItems = useSelector(state => state.products.Veg) ?? [];
+  const dispatch = useDispatch();
 
-    // State for filters
-    const [filterBelow100, setFilterBelow100] = useState(false);
-    const [filterAbove100, setFilterAbove100] = useState(false);
-    const [searchTerm, setSearchTerm] = useState("");
+  // ✅ CORRECT selector
+  const vegItems = useSelector(state => state.products.veg);
 
-    // Pagination state
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5;
+  const [search, setSearch] = useState("");
+  const [below100, setBelow100] = useState(false);
+  const [above100, setAbove100] = useState(false);
 
-    // Reset to page 1 when filters change
-    useEffect(() => {
-        setCurrentPage(1);
-    }, [searchTerm, filterBelow100, filterAbove100]);
+  // ✅ SAFE filtering
+  const filteredVeg = vegItems.filter(item => {
+    const matchSearch = item.name.toLowerCase().includes(search.toLowerCase());
+    const matchBelow = below100 ? item.price < 100 : true;
+    const matchAbove = above100 ? item.price >= 100 : true;
 
-    // Filtered items based on checkbox selection and search term
-    const filteredItems = vegItems.filter(item => {
-        const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
-        const isBelow100 = filterBelow100 ? item.price < 100 : true;
-        const isAbove100 = filterAbove100 ? item.price >= 100 : true;
-        return matchesSearch && isBelow100 && isAbove100;
-    });
+    return matchSearch && matchBelow && matchAbove;
+  });
 
-    // Pagination logic
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
-    const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+  return (
+    <div className="container text-center mt-4">
+      <h2>🥦 Fresh & Organic Veg Items</h2>
 
-    return (
-        <div className="veg-container">
-            <h2>Fresh & Organic Veg Items 🥦</h2>
+      {/* Search */}
+      <input
+        type="text"
+        className="form-control w-50 mx-auto my-3"
+        placeholder="Search for vegetables..."
+        value={search}
+        onChange={e => setSearch(e.target.value)}
+      />
 
-            {/* Search Box */}
-            <div className="search-box">
-                <input 
-                    type="text" 
-                    placeholder="Search for vegetables..." 
-                    value={searchTerm} 
-                    onChange={(e) => setSearchTerm(e.target.value)} 
+      {/* Filters */}
+      <div className="mb-3">
+        <label className="mx-2">
+          <input
+            type="checkbox"
+            checked={below100}
+            onChange={() => setBelow100(!below100)}
+          />{" "}
+          Below ₹100
+        </label>
+
+        <label className="mx-2">
+          <input
+            type="checkbox"
+            checked={above100}
+            onChange={() => setAbove100(!above100)}
+          />{" "}
+          Above ₹100
+        </label>
+      </div>
+
+      {/* Products */}
+      <div className="row">
+        {filteredVeg.length > 0 ? (
+          filteredVeg.map((item, index) => (
+            <div key={index} className="col-md-3 mb-4">
+              <div className="card p-2 shadow">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  height="150"
+                  style={{ objectFit: "cover" }}
                 />
+                <h5 className="mt-2">{item.name}</h5>
+                <p>₹{item.price}</p>
+                <button
+                  className="btn btn-success"
+                  onClick={() => dispatch(addToCart(item))}
+                >
+                  Add to Cart
+                </button>
+              </div>
             </div>
-
-            {/* Filter Section */}
-            <div className="filter-section">
-                <label>
-                    <input 
-                        type="checkbox" 
-                        checked={filterBelow100} 
-                        onChange={() => setFilterBelow100(!filterBelow100)} 
-                    />
-                    Below $100
-                </label>
-                <label>
-                    <input 
-                        type="checkbox" 
-                        checked={filterAbove100} 
-                        onChange={() => setFilterAbove100(!filterAbove100)} 
-                    />
-                    Above $100
-                </label>
-            </div>
-
-            {/* Veg Items List (Now in Vertical Layout) */}
-            <div className="veg-list">
-                {currentItems.length > 0 ? (
-                    currentItems.map((item, index) => (
-                        <div key={item.id || index} className="veg-card">
-                            <img src={item.image} alt={item.name} />
-                             <div className="veg-info">
-                                <span>{item.name} - ${item.price}</span>
-                                <button 
-                                    className="add-cart-btn" 
-                                    onClick={() => dispatch(addToCart(item))}
-                                >
-                                    Add to Cart
-                                </button>
-                             </div>
-                        </div>
-                    ))
-                ) : (
-                    <p>No Veg Items Available</p>
-                )}
-            </div>
-
-            {/* Simplified Pagination */}
-            {totalPages > 1 && (
-                <div className="pagination">
-                    <button 
-                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} 
-                        disabled={currentPage === 1}
-                    >
-                        Previous
-                    </button>
-
-                    <span className="page-info">{currentPage}</span>
-
-                    <button 
-                        onClick={() => setCurrentPage(prev => (prev < totalPages ? prev + 1 : prev))} 
-                        disabled={currentPage >= totalPages}
-                    >
-                        Next
-                    </button>
-                </div>
-            )}
-        </div>
-    );
+          ))
+        ) : (
+          <p className="text-danger mt-4">No Veg Items Available</p>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default Veg;

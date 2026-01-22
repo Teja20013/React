@@ -1,103 +1,85 @@
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "./Store";
-import { useState } from "react";
-import "./Milk.css"; // Ensure this CSS file exists in the same directory
 
 function Milk() {
-    const dispatch = useDispatch();
-    const milkItems = useSelector(state => state.products.Milk) ?? [];
+  const dispatch = useDispatch();
 
-    // State for filters
-    const [filterBelow100, setFilterBelow100] = useState(false);
-    const [filterAbove100, setFilterAbove100] = useState(false);
-    const [searchTerm, setSearchTerm] = useState("");
+  // ✅ Correct Redux path
+  const milkItems = useSelector(state => state.products.milk);
 
-    // State for pagination
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5;
+  const [search, setSearch] = useState("");
+  const [below100, setBelow100] = useState(false);
+  const [above100, setAbove100] = useState(false);
 
-    // Filter items based on checkbox selection and search term
-    const filteredItems = milkItems.filter(item => {
-        const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
-        if (filterBelow100 && item.price >= 100) return false;
-        if (filterAbove100 && item.price < 100) return false;
-        return matchesSearch;
-    });
+  const filteredMilk = milkItems.filter(item => {
+    const matchSearch = item.name.toLowerCase().includes(search.toLowerCase());
+    const matchBelow = below100 ? item.price < 100 : true;
+    const matchAbove = above100 ? item.price >= 100 : true;
 
-    // Pagination logic
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+    return matchSearch && matchBelow && matchAbove;
+  });
 
-    const finalItems = currentItems.map((item, index) => (
-        <li key={index} className="milk-card">
-            <img 
-            src={item.image}
-            alt={item.name}
-            style={{height:"120px", width:"120px", objectFit:"cover"}}
-            />
-            <span>{item.name} - {item.price}</span>
-            <button className="add-cart-btn" onClick={() => dispatch(addToCart(item))}>
-                Add to Cart
-            </button>
-        </li>
-    ));
+  return (
+    <div className="container text-center mt-4">
+      <h2>🥛 Fresh Dairy Products</h2>
 
-    return (
-        <div className="milk-container">
-            <h1>Welcome to the Milk Items Page</h1>
+      <input
+        type="text"
+        className="form-control w-50 mx-auto my-3"
+        placeholder="Search for milk products..."
+        value={search}
+        onChange={e => setSearch(e.target.value)}
+      />
 
-            {/* Search Box */}
-            <div className="search-box">
-                <input 
-                    type="text" 
-                    placeholder="Search items..." 
-                    value={searchTerm} 
-                    onChange={(e) => setSearchTerm(e.target.value)} 
+      <div className="mb-3">
+        <label className="mx-2">
+          <input
+            type="checkbox"
+            checked={below100}
+            onChange={() => setBelow100(!below100)}
+          />{" "}
+          Below ₹100
+        </label>
+
+        <label className="mx-2">
+          <input
+            type="checkbox"
+            checked={above100}
+            onChange={() => setAbove100(!above100)}
+          />{" "}
+          Above ₹100
+        </label>
+      </div>
+
+      <div className="row">
+        {filteredMilk.length > 0 ? (
+          filteredMilk.map((item, index) => (
+            <div key={index} className="col-md-3 mb-4">
+              <div className="card p-2 shadow">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  height="150"
+                  style={{ objectFit: "cover" }}
                 />
-            </div>
-
-            {/* Filter Section */}
-            <div className="filter-section">
-                <label>
-                    <input 
-                        type="checkbox" 
-                        checked={filterBelow100} 
-                        onChange={() => setFilterBelow100(!filterBelow100)} 
-                    />
-                    Below $100
-                </label>
-                <label>
-                    <input 
-                        type="checkbox" 
-                        checked={filterAbove100} 
-                        onChange={() => setFilterAbove100(!filterAbove100)} 
-                    />
-                    Above $100
-                </label>
-            </div>
-
-            {/* Display Filtered Items */}
-            <ol className="milk-list">{finalItems.length > 0 ? finalItems : <p>No Milk Items Available</p>}</ol>
-
-            {/* Pagination Controls */}
-            <div className="pagination">
-                <button 
-                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} 
-                    disabled={currentPage === 1}
+                <h5 className="mt-2">{item.name}</h5>
+                <p>₹{item.price}</p>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => dispatch(addToCart(item))}
                 >
-                    Previous
+                  Add to Cart
                 </button>
-                <span> Page {currentPage} </span>
-                <button 
-                    onClick={() => setCurrentPage(prev => (indexOfLastItem < filteredItems.length ? prev + 1 : prev))} 
-                    disabled={indexOfLastItem >= filteredItems.length}
-                >
-                    Next
-                </button>
+              </div>
             </div>
-        </div>
-    );
+          ))
+        ) : (
+          <p className="text-danger mt-4">No Milk Items Available</p>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default Milk;

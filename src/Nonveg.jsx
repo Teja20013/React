@@ -1,103 +1,85 @@
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "./Store";
-import { useState } from "react";
-import "./Nonveg.css"; // Ensure this CSS file exists in the same directory
 
-function Nonveg() {
-    const dispatch = useDispatch();
-    const nonvegItems = useSelector(state => state.products.Nonveg) ?? [];
+function NonVeg() {
+  const dispatch = useDispatch();
 
-    // State for filters
-    const [filterBelow100, setFilterBelow100] = useState(false);
-    const [filterAbove100, setFilterAbove100] = useState(false);
-    const [searchTerm, setSearchTerm] = useState("");
+  // ✅ Correct Redux path
+  const nonVegItems = useSelector(state => state.products.nonveg);
 
-    // State for pagination
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5;
+  const [search, setSearch] = useState("");
+  const [below100, setBelow100] = useState(false);
+  const [above100, setAbove100] = useState(false);
 
-    // Filter items based on checkbox selection and search term
-    const filteredItems = nonvegItems.filter(item => {
-        const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
-        if (filterBelow100 && item.price >= 100) return false;
-        if (filterAbove100 && item.price < 100) return false;
-        return matchesSearch;
-    });
+  const filteredNonVeg = nonVegItems.filter(item => {
+    const matchSearch = item.name.toLowerCase().includes(search.toLowerCase());
+    const matchBelow = below100 ? item.price < 100 : true;
+    const matchAbove = above100 ? item.price >= 100 : true;
 
-    // Pagination logic
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+    return matchSearch && matchBelow && matchAbove;
+  });
 
-    const finalItems = currentItems.map((item, index) => (
-        <li key={index} className="nonveg-card">
-            <img 
-            src={item.image}
-            alt={item.name}
-            style={{height:"120px", width:"120px", objectFit:"cover"}}
-            />
-            <span>{item.name} - {item.price}</span>
-            <button className="add-cart-btn" onClick={() => dispatch(addToCart(item))}>
-                Add to Cart
-            </button>
-        </li>
-    ));
+  return (
+    <div className="container text-center mt-4">
+      <h2>🍗 Fresh Non-Veg Items</h2>
 
-    return (
-        <div className="nonveg-container">
-            <h1>Welcome to the Non-Veg Items Page</h1>
+      <input
+        type="text"
+        className="form-control w-50 mx-auto my-3"
+        placeholder="Search for non-veg items..."
+        value={search}
+        onChange={e => setSearch(e.target.value)}
+      />
 
-            {/* Search Box */}
-            <div className="search-box">
-                <input 
-                    type="text" 
-                    placeholder="Search items..." 
-                    value={searchTerm} 
-                    onChange={(e) => setSearchTerm(e.target.value)} 
+      <div className="mb-3">
+        <label className="mx-2">
+          <input
+            type="checkbox"
+            checked={below100}
+            onChange={() => setBelow100(!below100)}
+          />{" "}
+          Below ₹100
+        </label>
+
+        <label className="mx-2">
+          <input
+            type="checkbox"
+            checked={above100}
+            onChange={() => setAbove100(!above100)}
+          />{" "}
+          Above ₹100
+        </label>
+      </div>
+
+      <div className="row">
+        {filteredNonVeg.length > 0 ? (
+          filteredNonVeg.map((item, index) => (
+            <div key={index} className="col-md-3 mb-4">
+              <div className="card p-2 shadow">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  height="150"
+                  style={{ objectFit: "cover" }}
                 />
-            </div>
-
-            {/* Filter Section */}
-            <div className="filter-section">
-                <label>
-                    <input 
-                        type="checkbox" 
-                        checked={filterBelow100} 
-                        onChange={() => setFilterBelow100(!filterBelow100)} 
-                    />
-                    Below $100
-                </label>
-                <label>
-                    <input 
-                        type="checkbox" 
-                        checked={filterAbove100} 
-                        onChange={() => setFilterAbove100(!filterAbove100)} 
-                    />
-                    Above $100
-                </label>
-            </div>
-
-            {/* Display Filtered Items */}
-            <ol className="nonveg-list">{finalItems.length > 0 ? finalItems : <p>No Non-Veg Items Available</p>}</ol>
-
-            {/* Pagination Controls */}
-            <div className="pagination">
-                <button 
-                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} 
-                    disabled={currentPage === 1}
+                <h5 className="mt-2">{item.name}</h5>
+                <p>₹{item.price}</p>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => dispatch(addToCart(item))}
                 >
-                    Previous
+                  Add to Cart
                 </button>
-                <span> Page {currentPage} </span>
-                <button 
-                    onClick={() => setCurrentPage(prev => (indexOfLastItem < filteredItems.length ? prev + 1 : prev))} 
-                    disabled={indexOfLastItem >= filteredItems.length}
-                >
-                    Next
-                </button>
+              </div>
             </div>
-        </div>
-    );
+          ))
+        ) : (
+          <p className="text-danger mt-4">No Non-Veg Items Available</p>
+        )}
+      </div>
+    </div>
+  );
 }
 
-export default Nonveg;
+export default NonVeg;
